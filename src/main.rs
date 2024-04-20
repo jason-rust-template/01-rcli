@@ -1,6 +1,20 @@
-use std::path::Path;
 // rcli csv -i input.csv -o output.csv --header -d ','
 use clap::Parser;
+use csv::Reader;
+use serde::{Deserialize, Serialize};
+use std::path::Path;
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "PascalCase")]
+struct Player {
+    name: String,
+    position: String,
+    #[serde(rename = "DOB")]
+    dob: String,
+    nationality: String,
+    #[serde(rename = "Kit Number")]
+    kit: u8,
+}
 #[derive(Debug, Parser)]
 #[command(name = "rcli", version, author, about, long_about = None)]
 struct Opts {
@@ -29,15 +43,25 @@ struct CsvOpts {
     header: bool,
 }
 
-fn main() {
+fn main() -> anyhow::Result<()> {
     let opts = Opts::parse();
     println!("{:?}", opts);
+    match opts.cmd {
+        Subcommand::Csv(opts) => {
+            let mut reader = Reader::from_path(opts.input)?;
+            for result in reader.deserialize() {
+                let record: Player = result?;
+                println!("{:?}", record);
+            }
+        }
+    }
+    Ok(())
 }
 
-fn verify_input_file(filename: &str) -> Result<String, String> {
+fn verify_input_file(filename: &str) -> Result<String, &'static str> {
     if Path::new(filename).exists() {
         Ok(filename.into())
     } else {
-        Err("File {} does not exist".into())
+        Err("File {} does not exist")
     }
 }
