@@ -36,8 +36,19 @@ rcli is a rust CLI tool
 
 - 选中代码 选中 rename symbol 作用域下的要改的重复东西都会被修改
 - mac command + . 快速修复代码
+- cargo run -- csv -i input.csv -o output.csv --header -d ','
+
+1. cargo run 后面的 -- 是把 rust 编译并执行后的程序和后面的参数分开，即 -- 前面是 rust 程序，后面是传递给 rust 程序的参数
+2. -i 是 input 的简写 input.csv 是所跟参数 后面的 -o 和 -d 类似
+3. --header 通常在命令行中指代 bool
 
 # 安装 duckdb
 
 - windows: winget install DuckDB.cli 在终端输入 duckdb 即可使用
 - mac: brew install duckdb 同上
+
+# tokei install
+
+cargo install --git https://github.com/XAMPPRocky/tokei.git tokei
+
+这个工具可查看我们的代码写了多少行
