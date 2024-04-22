@@ -1,4 +1,4 @@
-# RCLI
+#### RCLI
 
 rcli is a rust CLI tool
 
@@ -52,3 +52,18 @@ rcli is a rust CLI tool
 cargo install --git https://github.com/XAMPPRocky/tokei.git tokei
 
 这个工具可查看我们的代码写了多少行
+
+### CLI 项目：生成随机密码
+
+- 改进之前的 csv -> json 代码
+- 支持多种输出格式: json, toml, yml
+- 随机生成密码的需求：长度，大小写，特殊字符，强度
+- 随机数生成：rand crate
+- 构建一个密码生成器
+- 密码强度检测: zxcvbn crate
+- 重构代码
+
+# zsh/fish nushell (Rust): completion
+
+structopt crate 代码库 和 clap crate 类似 可以看它源码
+libp2p 看源码
