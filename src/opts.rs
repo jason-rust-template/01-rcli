@@ -5,11 +5,11 @@ use std::{fmt, path::Path, str::FromStr};
 #[command(name = "rcli", version, author, about, long_about = None)]
 pub struct Opts {
     #[command(subcommand)]
-    pub cmd: Subcommand,
+    pub cmd: SubCommand,
 }
 
 #[derive(Debug, Parser)]
-pub enum Subcommand {
+pub enum SubCommand {
     #[command(name = "csv", about = "show CSV, or Convert CSV to other formats")]
     Csv(CsvOpts),
     #[command(name = "genpass", about = "Generate a random password")]
@@ -47,13 +47,13 @@ pub struct CsvOpts {
 pub struct GenPassOpts {
     #[arg(short, long, default_value_t = 16)]
     pub length: u8,
-    #[arg(long, default_value_t = false)]
+    #[arg(long, default_value_t = true)]
     pub uppercase: bool,
-    #[arg(long, default_value_t = false)]
+    #[arg(long, default_value_t = true)]
     pub lowercase: bool,
-    #[arg(long, default_value_t = false)]
+    #[arg(long, default_value_t = true)]
     pub number: bool,
-    #[arg(long, default_value_t = false)]
+    #[arg(long, default_value_t = true)]
     pub symbol: bool,
 }
 
