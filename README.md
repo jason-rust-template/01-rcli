@@ -1,4 +1,4 @@
-#### RCLI
+## RCLI
 
 rcli is a rust CLI tool
 
@@ -53,7 +53,7 @@ cargo install --git https://github.com/XAMPPRocky/tokei.git tokei
 
 这个工具可查看我们的代码写了多少行
 
-### CLI 项目：生成随机密码
+## CLI 项目：生成随机密码
 
 - 改进之前的 csv -> json 代码
 - 支持多种输出格式: json, toml, yml
@@ -67,3 +67,15 @@ cargo install --git https://github.com/XAMPPRocky/tokei.git tokei
 
 structopt crate 代码库 和 clap crate 类似 可以看它源码
 libp2p 看源码
+
+## clI 项目：base64 编解码
+
+# base64 处理：base64 crate
+
+# 对任意文件或者 stdin 的输入，输出 base 64
+
+- 如何处理作用域中的不同返回类型？
+
+# 对 stdin 的 base64 输入， 输出原始内容
+
+# 单元测试
