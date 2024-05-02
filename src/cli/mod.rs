@@ -6,7 +6,10 @@ use self::{csv::CsvOpts, genpass::GenPassOpts};
 use clap::Parser;
 use std::path::Path;
 
-pub use self::{base64::Base64SubCommand, csv::OutputFormat};
+pub use self::{
+    base64::{Base64Format, Base64SubCommand},
+    csv::OutputFormat,
+};
 
 #[derive(Debug, Parser)]
 #[command(name = "rcli", version, author, about, long_about = None)]
