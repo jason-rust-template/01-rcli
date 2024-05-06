@@ -1,6 +1,7 @@
 mod base64;
 mod csv;
 mod genpass;
+mod text;
 
 use self::{csv::CsvOpts, genpass::GenPassOpts};
 use clap::Parser;
