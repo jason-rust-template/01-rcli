@@ -1,7 +1,7 @@
 use clap::{arg, Parser};
 use std::{fmt, str::FromStr};
 
-use super::verify_input_file;
+use super::verify_file;
 
 #[derive(Debug, Clone, Copy)]
 pub enum OutputFormat {
@@ -12,7 +12,7 @@ pub enum OutputFormat {
 // default_value_t 是直接设置指定类型不用转换
 #[derive(Debug, Parser)]
 pub struct CsvOpts {
-    #[arg(short, long, value_parser = verify_input_file)]
+    #[arg(short, long, value_parser = verify_file)]
     pub input: String,
 
     //  form trait 里会干这件事情 "output.json".into()

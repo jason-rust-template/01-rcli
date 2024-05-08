@@ -1,8 +1,8 @@
-use std::str::FromStr;
+use std::{fmt, path::PathBuf, str::FromStr};
 
 use clap::{arg, Parser};
 
-use super::verify_input_file;
+use super::{verify_file, verify_path};
 
 #[derive(Debug, Parser)]
 pub enum TextSubCommand {
@@ -10,13 +10,15 @@ pub enum TextSubCommand {
     Sign(TextSignOpts),
     #[command(about = "Verify a signed message")]
     Verify(TextVerifyOpts),
+    #[command(about = "Generate a new key")]
+    Generate(TextKeyGenerateOpts),
 }
 
 #[derive(Debug, Parser)]
 pub struct TextSignOpts {
-    #[arg(short, long, value_parser = verify_input_file, default_value="-" )]
+    #[arg(short, long, value_parser = verify_file, default_value="-" )]
     pub input: String,
-    #[arg(short, long, value_parser = verify_input_file, default_value = "-")]
+    #[arg(short, long, value_parser = verify_file)]
     pub key: String,
     #[arg(long, default_value = "blake3", value_parser = parse_format)]
     pub format: TextSignFormat,
@@ -24,14 +26,22 @@ pub struct TextSignOpts {
 
 #[derive(Debug, Parser)]
 pub struct TextVerifyOpts {
-    #[arg(short, long, value_parser = verify_input_file, default_value="-" )]
+    #[arg(short, long, value_parser = verify_file, default_value="-" )]
     pub input: String,
-    #[arg(short, long, value_parser = verify_input_file, default_value = "-")]
+    #[arg(short, long, value_parser = verify_file)]
     pub key: String,
     #[arg(short, long)]
     pub sig: String,
     #[arg(long, default_value = "blake3", value_parser = parse_format)]
     pub format: TextSignFormat,
+}
+
+#[derive(Debug, Parser)]
+pub struct TextKeyGenerateOpts {
+    #[arg(short, long, default_value = "blake3", value_parser = parse_format)]
+    pub format: TextSignFormat,
+    #[arg(short,long, value_parser = verify_path)]
+    pub output: PathBuf,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -53,5 +63,20 @@ impl FromStr for TextSignFormat {
             "ed25519" => Ok(TextSignFormat::Ed25519),
             _ => Err(anyhow::anyhow!("Invalid format")),
         }
+    }
+}
+
+impl From<TextSignFormat> for &'static str {
+    fn from(format: TextSignFormat) -> Self {
+        match format {
+            TextSignFormat::Blake3 => "blake3",
+            TextSignFormat::Ed25519 => "ed25519",
+        }
+    }
+}
+
+impl fmt::Display for TextSignFormat {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", Into::<&str>::into(*self))
     }
 }
