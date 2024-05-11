@@ -40,15 +40,12 @@ pub enum SubCommand {
 impl CmdExector for SubCommand {
     async fn execute(self) -> anyhow::Result<()> {
         match self {
-            SubCommand::Csv(opts) => {
-                opts.execute().await?;
-            }
-            SubCommand::GenPass(opts) => {
-                opts.execute().await?;
-            }
-            _ => (),
+            SubCommand::Csv(opts) => opts.execute().await,
+            SubCommand::GenPass(opts) => opts.execute().await,
+            SubCommand::Base64(opts) => opts.execute().await,
+            SubCommand::Text(opts) => opts.execute().await,
+            SubCommand::Http(opts) => opts.execute().await,
         }
-        Ok(())
     }
 }
 
