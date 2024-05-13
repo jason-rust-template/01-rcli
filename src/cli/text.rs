@@ -2,9 +2,11 @@ use super::{verify_file, verify_path};
 use crate::CmdExector;
 use anyhow::Ok;
 use clap::{arg, Parser};
+use enum_dispatch::enum_dispatch;
 use std::{fmt, fs, path::PathBuf, str::FromStr};
 
 #[derive(Debug, Parser)]
+#[enum_dispatch(CmdExector)]
 pub enum TextSubCommand {
     #[command(about = "Sign a message with a private/shared key")]
     Sign(TextSignOpts),
@@ -112,15 +114,5 @@ impl CmdExector for TextKeyGenerateOpts {
             }
         }
         Ok(())
-    }
-}
-
-impl CmdExector for TextSubCommand {
-    async fn execute(self) -> anyhow::Result<()> {
-        match self {
-            TextSubCommand::Sign(opts) => opts.execute().await,
-            TextSubCommand::Verify(opts) => opts.execute().await,
-            TextSubCommand::Generate(opts) => opts.execute().await,
-        }
     }
 }
